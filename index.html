@@ -1,0 +1,1570 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Karafka - Ruby Framework for Event Driven Architecture</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme.css" id="theme">
+		<link rel="stylesheet" href="css/custom.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+          <img src="img/karafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 80%; background: none;"/>
+          <h3>Ruby Framework <br/>for Event Driven Architecture</h3>
+        </section>
+
+        <section>
+          <h2>$ whoami --code</h2>
+
+          <p>
+            <a href="http://mensfeld.pl">Maciej Mensfeld</a>
+          </p>
+
+          <p>
+            <ul style="list-style: none; text-align: center;">
+              <li>
+                Software Engineer / Architect
+              </li>
+              <li>
+                <a href="https://github.com/karafka/karafka">Karafka</a> creator
+              </li>
+              <li>
+                OSS contributor (~12 years with Ruby)
+              </li>
+              <img src="img/contr.png" style="border: 1px; width: 100%"/>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h2>$ whoami --work</h2>
+
+          <img src="img/castle.png" style="border: none; box-shadow: 0 0 0 0 #fff; background: none; width: 50%"/>
+
+          <h4>
+            Castle detects and mitigates account takeovers in web and mobile apps
+          </h4>
+        </section>
+
+        <section>
+          <h2>$ whoami --travel</h2>
+
+          <img src="img/travel.png" style="border: 1px; width: 100%"/>
+
+          <h5>8631 km / 24h</h5>
+        </section>
+
+        <section>
+          <img src="img/krug.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 80%; background: none; width: 50%"/>
+
+          <h5>Kraków Ruby Users Group organizer</h5>
+
+          <ul>
+            <li>One of the biggest Ruby communities in Europe</li>
+            <li>Over <span style="color: #BC2C40">1200</span> members</li>
+            <li><span style="color: #BC2C40">60-150</span> attendees per event</li>
+            <li>One meeting per month with <span style="color: #BC2C40">2-3</span> tech talks</li>
+            <li><span style="color: #BC2C40">17</span> sponsors</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="img/krug.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 80%; background: none; width: 20%"/>
+          <br/>
+          <img src="img/krug.jpg" style="width: 80%"/>
+        </section>
+
+        <section>
+					<h2>$ whoami --japan</h2>
+
+					<ul>
+						<li><span style="color: #BC2C40">1st</span> time at RubyKaigi</li>
+						<li><span style="color: #BC2C40">3rd</span> time in Japan</li>
+						<li>Kyokushin Karate practitioner</li>
+						<li>Fullmetal Alchemist / 鋼の錬金術師 fan</li>
+					</ul>
+        </section>
+
+        <section>
+					<h2>$ whoami --japan</h2>
+
+          <img src="img/tree.jpg" style="width: 70%;"/>
+        </section>
+
+        <section>
+					<h2>$ whoami --waifu</h2>
+
+          <img src="img/waifu.jpg" style="width: 70%;"/>
+        </section>
+
+				<section>
+					<h2>$ whoami --contact</h2>
+
+					<p>
+            github: <a href="http://github.com/mensfeld">github.com/mensfeld</a> <br>
+            www: <a href="http://mensfeld.pl">mensfeld.pl</a> <br>
+            twitter: <a href="http://twitter.com/maciejmensfeld">@maciejmensfeld</a> <br>
+            e-mail: <a href="mailto:maciej@mensfeld.pl">maciej@mensfeld.pl</a>
+          </p>
+				</section>
+
+        <section>
+          <img src="img/party.png" style=""/>
+
+          <p>
+            Talk to me about:
+            <br/>
+            Karafka, Kafka, Ruby, Poland, System Architecture, High throughput data processing,
+            dry-rb, Trailblazer, TCP, Ruby on Rails or <span style="color: #BC2C40">anything</span> else TBH :)
+          </p>
+        </section>
+
+        <section>
+          <img src="img/masamune.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 10%; background: none;"/>
+
+          <h2>Please notify me if...</h2>
+
+          <ul>
+            <li>
+              I speak 2 fast
+            </li>
+            <li>
+              I should repeat anything
+            </li>
+            <li>
+              I should explain something better
+            </li>
+            <li>
+              You have any questions
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>
+            What do I hope to leave you with
+          </h3>
+
+          <small>
+            We're shifting from transactional to evented world. This session should help you understand this change and should provide a gentle intro to stateful distributed systems such as Apache Kafka and how they can be used with Karafka in Ruby based applications.
+          </small>
+
+          <br />
+
+          <img src="img/ship.png" style=" float: left;border: none; box-shadow: 0 0 0 0 #fff; width: 40%; background: none;"/>
+        </section>
+
+        <section>
+          <img src="img/tree.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 10%; background: none;"/>
+
+          <h2>Agenda</h2>
+
+          <img src="img/masamune.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 10%; background: none;"/>
+
+          <ul>
+            <li>Definitions and basics</li>
+            <li>What is Kafka?</li>
+            <li>Kafka + Ruby</li>
+            <li>What is <span style="color: #BC2C40">Karafka?</span></li>
+            <li>Streams and batches mindshift</li>
+            <li>Karafka use cases</li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="img/masamune.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 10%; background: none;"/>
+
+          <h1>Definitions</h1>
+        </section>
+
+        <section>
+          <strong>Event Driven Architecture</strong>
+
+          <blockquote>
+            Event-driven architecture (EDA), is a software architecture pattern promoting the production, detection, consumption of, and reaction to events.
+          </blockquote>
+
+          <small>
+            Image source: <a href="https://en.wikipedia.org/wiki/Event-driven_architecture">Wiki</a>
+          </small>
+        </section>
+
+        <section>
+          <strong>Immutability</strong>
+
+          <blockquote>
+            In object-oriented and functional programming, an immutable object (unchangeable object) is an object whose state cannot be modified after it is created.
+          </blockquote>
+
+          <small>Image source: <a href="https://en.wikipedia.org/wiki/Immutable_object">Wiki</a></small>
+        </section>
+
+        <section>
+          <strong>DDD</strong>
+
+          <blockquote>
+            Domain-driven design is an approach to developing software for complex needs by deeply connecting the implementation to an evolving model of the core business concepts.
+          </blockquote>
+
+          <small>
+            Image source: <a href="http://dddcommunity.org/learning-ddd/what_is_ddd/">DDD Community</a>
+          </small>
+        </section>
+
+        <section>
+          <strong>Event Sourcing</strong>
+
+          <blockquote>
+            Instead of focussing on current state, you focus on the changes that have occurred over time. It is the practice of modelling your system as a sequence of events.
+          </blockquote>
+
+          <small>
+            Image source: <a href="https://dev.to/barryosull/event-sourcing-what-it-is-and-why-its-awesome">Dev.to</a>
+          </small>
+        </section>
+
+        <section>
+          <strong>Sagas / Process managers</strong>
+
+          <blockquote>
+            The Saga pattern describes how to solve business transactions (...) in distributed systems. The basic idea is to break the overall transaction into multiple steps. (...) the overall consistency is taken care of by the Saga.
+          </blockquote>
+        </section>
+
+        <section>
+          <h3>Event-driven shopping cart</h3>
+
+          <table style="font-size: 80%;">
+            <tr>
+              <th>Event type</th>
+              <th>Params</th>
+            </tr>
+            <tr>
+              <td>Item added</td>
+              <td>{ cart_id: 1, item: 'Book about Erlang' }</td>
+            </tr>
+            <tr>
+              <td>Item added</td>
+              <td>{ cart_id: 1, item: 'Book about Ruby' }</td>
+            </tr>
+            <tr>
+              <td>Item removed</td>
+              <td>{ cart_id: 1, item: 'Book about Ruby' }</td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h3>Event-driver shopping cart materialized</h3>
+
+          <table style="font-size: 80%;">
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+            </tr>
+            <tr>
+              <td>Book about Erlang</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>Book about Ruby</td>
+              <td>2</td>
+            </tr>
+          </table>
+        </section>
+
+        <section>
+          <h3>More about that in Antons talk today @ 16:40</h3>
+
+          <img src="img/anton.png" style="border: 10px; width: 100%"/>
+        </section>
+
+        <section>
+          <h2>Benefits and drawbacks of EDA</h2>
+        </section>
+
+        <section>
+          <h3>
+            This is the way world works.
+          </h3>
+        </section>
+
+        <section>
+          <h3>
+            But most of the time this is not how we model our software.
+          </h3>
+        </section>
+
+        <section>
+          <h3>
+            Instead we maintain the current "snapshot" of our reality dumping the actual state changes.
+          </h3>
+        </section>
+
+        <section>
+          <h3>
+            Data is the new oil
+          </h3>
+
+          <p>
+            <img src="img/oil.jpg" style="width: 50%;"/>
+          </p>
+
+          <small>
+            Image source: <a href="https://medium.com/fusion-by-fresco-capital/data-is-the-new-oil-d6136593e130">Joel Semeniuk article</a>
+          </small>
+
+          <p>
+            You may not yet be aware of future use-cases of the data you now possess.
+          </p>
+        </section>
+
+        <section>
+          <h3>Having this type of data allows you to do many things</h3>
+
+          <ul>
+            <li>How often users add things together with other things but decide not to buy all of them?</li>
+            <li class="fragment">How long does it take for a user to make an order from the moment first item was added?</li>
+            <li class="fragment">How long does it take for a user to make an order from the moment last item was added?</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>
+            Minimal set of in-between dependencies
+          </h3>
+
+          <h4>
+            One way relationship
+          </h4>
+
+          <img src="img/messagebus.png" style="border: none; box-shadow: 0 0 0 0 #fff; background: none;"/>
+        </section>
+
+        <section>
+          <h2>
+            Performance
+          </h2>
+
+          <h3>
+            Great for performance, availability and scaling
+          </h3>
+
+          <ul>
+            <li>
+              Scalability of <span style="color: #BC2C40">processing</span>
+            </li>
+            <li>
+              Scalability of <span style="color: #BC2C40">design</span>
+            </li>
+            <li>
+              Scalability of <span style="color: #BC2C40">change</span>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>
+            Design and architecture quality
+          </h2>
+        </section>
+
+        <section>
+          <h1>
+            Downsides
+          </h1>
+        </section>
+
+
+        <section>
+          <h2>Asynchronicity</h2>
+
+          <img src="img/call.jpg" style="width: 60%;"/>
+        </section>
+
+        <section>
+          <h2>Eventual consistency</h2>
+
+          <img src="img/evec.jpg" style="width: 50%;"/>
+        </section>
+
+        <section>
+          <h2>Data corrections need events</h2>
+
+          <h4>(As long as not isolated behind an aggregation root)</h4>
+        </section>
+
+        <section>
+          <h2>Can be an over-engineering for simple CRUD systems</h2>
+
+          <p>
+            <img src="img/over.png" style="border: none; box-shadow: 0 0 0 0 #fff; background-color: none;"/>
+          </p>
+
+
+          <small>
+            Image source: <a href="https://twitter.com/objective_neo/status/523085425817419776">Twitter</a>
+          </small>
+        </section>
+
+        <section>
+          <img src="img/kafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; background-color: transparent;"/>
+        </section>
+
+        <section>
+          <img src="img/kafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; background-color: transparent; width: 50%;"/>
+
+          <h2>What is Kafka?</h2>
+        </section>
+
+        <section>
+          <img src="img/kafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; background-color: transparent; width: 50%;"/>
+
+          <h4>It is a distributed streaming platform</h4>
+          <h4>It is a high-throughput distributed messaging system</h4>
+        </section>
+
+        <section>
+          <h2>What is Kafka?</h2>
+
+          <ul>
+            <li>
+              Kafka is designed to allow a single cluster to serve as the central data backbone for a large organization
+            </li>
+            <li>
+              It can be elastically and transparently expanded without downtime
+            </li>
+            <li>
+              It provides broadcasting to many applications
+            </li>
+            <li>
+              Allows to build systems that are event based
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="img/slack.png" style="border: none; box-shadow: 0 0 0 0 #fff; background-color: transparent; width: 50%;"/>
+
+          <h2>What is Slack?</h2>
+
+          <h4>Slack is a messaging
+          <span style="color: #BC2C40">app</span> for <span style="color: #BC2C40">teams</span>
+          </h4>
+        </section>
+
+        <section>
+          <img src="img/kafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; background-color: transparent; width: 50%;"/>
+
+          <h2>What is Kafka?</h2>
+
+          <h4>
+          Kafka is a messaging
+          <span style="color: #BC2C40">app</span> for <span style="color: #BC2C40">apps</span>
+
+        </h4>
+        </section>
+
+        <section>
+         <h2>Who uses Kafka?</h2>
+
+          <ul style="padding-right: 10%;">
+            <li>Linkedin</li>
+            <li>Castle</li>
+            <li>Twitter</li>
+            <li>Netflix</li>
+            <li>Square</li>
+            <li>Spotify</li>
+            <li>Pinterest</li>
+            <li>Uber</li>
+          </ul>
+
+          <ul>
+            <li>Tumblr</li>
+            <li>Cisco</li>
+            <li>Foursquare</li>
+            <li>Shopify</li>
+            <li>Oracle</li>
+            <li>Urban Airship</li>
+            <li>OVH</li>
+            <li>And many more...</li>
+          </ul>
+        </section>
+
+        <section>
+         <h3>How Kafka works?</h3>
+
+          <img src="img/kafka-apis.png" style="width: 50%"/>
+       </section>
+
+        <section>
+         <h3>Topic anatomy</h3>
+
+          <img src="img/log_anatomy.png"/>
+       </section>
+
+        <section>
+         <h3>Consumer groups</h3>
+
+          <img src="img/consumer-groups.png"/>
+
+          <p>
+            Consumer group is a set of consumers sharing a
+            <span style="color: #BC2C40">common</span>
+            group identifier.
+          </p>
+       </section>
+
+        <section>
+          <img src="img/masamune.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 5%; background: none;"/>
+          <h3>Messages are immutable</h3>
+
+          <h4>Byte arrays</h4>
+
+          <ul>
+            <li>String</li>
+            <li>JSON</li>
+            <li>Apache AVRO</li>
+            <li>Or anything else</li>
+          </ul>
+        </section>
+
+        <section>
+         <h3>Partition anatomy</h3>
+
+         <h4>Great for scalability</h4>
+
+         <ul>
+           <li>The more partitions you have, the more throughput you get</li>
+           <li>Each partition must fit on a single server</li>
+         </ul>
+        </section>
+
+        <section>
+         <h3>Partition anatomy</h3>
+
+         <h4>Great for ordering</h4>
+
+         <ul>
+           <li>Kafka <span style="color: #BC2C40">guarantees</span> message order within the same partition</li>
+           <li>Strong ordering can be achieved by using <span style="color: #BC2C40">partition keys</span></li>
+         </ul>
+        </section>
+
+        <section>
+          <h3>Partition anatomy</h3>
+
+          <h4>Great for ordering</h4>
+
+          <p>
+            <img src="img/ordering.png" style="box-shadow: 0 0 0 0 #fff; width: 60%"/>
+          </p>
+
+          <small>
+            Img source: <a href="https://www.confluent.io/blog/apache-kafka-for-service-architectures/">
+              Apache Kafka for service architecture
+            </a>
+          </small>
+        </section>
+
+        <section>
+         <h3>Load balanced services</h3>
+
+         <p>
+            <img src="img/repl.png" style="box-shadow: 0 0 0 0 #fff; width: 60%"/>
+         </p>
+
+         <small>
+           Img source: <a href="https://www.slideshare.net/benstopford/building-event-driven-services-with-apache-kafka-and-kafka-streams-devoxx-belgium-82844777">Ben Stopford's talk</a>
+         </small>
+        </section>
+
+
+        <section>
+         <h3>Fault tolerant services</h3>
+
+         <p>
+            <img src="img/fault.png" style="box-shadow: 0 0 0 0 #fff; width: 40%"/>
+         </p>
+
+         <p>
+           If an instance of a service dies, data is redirected and ordering guarantees are maintained.
+         </p>
+
+         <small>
+           Img source: <a href="https://www.slideshare.net/benstopford/building-event-driven-services-with-apache-kafka-and-kafka-streams-devoxx-belgium-82844777">Ben Stopford's talk</a>
+         </small>
+        </section>
+
+        <section>
+         <h3>Rewind and replay services</h3>
+
+         <p>
+            <img src="img/replay.png" style="box-shadow: 0 0 0 0 #fff; width: 60%"/>
+         </p>
+
+         <small>
+           Img source: <a href="https://www.slideshare.net/benstopford/building-event-driven-services-with-apache-kafka-and-kafka-streams-devoxx-belgium-82844777">Ben Stopford's talk</a>
+         </small>
+        </section>
+
+        <section>
+          <img src="img/kafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 35%; background: none;"/>
+          <br/>
+          +
+          <br/>
+          <br/>
+          <img src="img/ruby.gif" style="border: none; box-shadow: 0 0 0 0 #fff; width: 25%; background: none;"/>
+        </section>
+
+        <section>
+          <h2>Kafka + Ruby</h2>
+
+          <ul>
+            <li><a href="https://github.com/joekiller/jruby-kafka">jruby-kafka</a></li>
+            <li><a href="https://github.com/bpot/poseidon">poseidon</a></li>
+            <li><a href="https://github.com/zendesk/ruby-kafka">ruby-kafka</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Kafka + Ruby</h2>
+          <h3>jruby-kafka</h3>
+
+          <ul>
+            <li>A wrapper around the official Kafka Java client</li>
+            <li>Won't work with cRuby based apps</li>
+            <li>Requires reading Java docs ;(</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Kafka + Ruby</h2>
+          <h3>poseidon</h3>
+
+          <ul>
+            <li><span style="color: #BC2C40">Not</span> maintained</li>
+            <li>Still working if used with 0.8 Kafka API</li>
+            <li>Does not support consumer groups</li>
+            <li>Still used by some companies</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Kafka + Ruby</h2>
+          <h3>ruby-kafka</h3>
+
+          <ul>
+            <li><span style="color: #BC2C40">Maintained</span></li>
+            <li>0.9+ API support</li>
+            <li>Sync and async producers</li>
+            <li>Powered by Zendesk</li>
+            <li>Default Karafka driver</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <img src="img/karafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 70%; background: none"/>
+
+          <h3>A story of getting things done</h3>
+        </section>
+
+        <section>
+          <h2>What is Karafka?</h2>
+
+          <ul>
+            <li>It is a framework used to <span style="color: #BC2C40">simplify</span> Apache Kafka based Ruby applications development. </li>
+            <li class="fragment">
+              Karafka provides a
+              <span style="color: #BC2C40">seamless</span> and
+              <span style="color: #BC2C40">stable</span> core for consuming and processing data, without forcing you to focus on things that are not your business domain.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Why we've developed Karafka?</h3>
+
+          <p>
+            We've needed a tool that would allow us to:
+          </p>
+
+          <ul>
+            <li>build applications <span style="color: #BC2C40">faster</span></li>
+            <li class="fragment"><span style="color: #BC2C40">process faster</span></li>
+            <li class="fragment">handle events and messages from many sources and process them <span style="color: #BC2C40">the same way</span></li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Why we've developed Karafka?</h4>
+
+          <p>
+            Because:
+          </p>
+
+          <small>
+
+          <ul>
+            <li>threads</li>
+            <li>signals</li>
+            <li>drivers</li>
+            <li>parsing</li>
+            <li>connection management</li>
+            <li>load balancing</li>
+            <li>connection failures / reconnections</li>
+          </ul>
+          </small>
+          <p>
+            <span style="color: #BC2C40">aren't</span> business logic
+          </p>
+        </section>
+
+        <section>
+          <h3>Why even bother with messaging when there is HTTP and REST?</h3>
+
+          <ul>
+            <li>HTTP <span style="color: #BC2C40">does not</span> provide broadcasting</li>
+            <li>Often many <span style="color: #BC2C40">independent</span> actions needs to be triggered based on a single event</li>
+            <li>Maintaining internal API clients is a <span style="color: #BC2C40">no-no</span></li>
+            <li><span style="color: #BC2C40">Much harder</span> batch data reception (must be implemented on the client side)</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Why even bother with messaging when there is HTTP and REST?</h3>
+
+          <ul>
+            <li>With a message broker you can replace microservices <span style="color: #BC2C40">transparently</span></li>
+            <li>You can obtain better microservices <span style="color: #BC2C40">isolation</span></li>
+            <li>You can create new microservices that use multiple different events from many sources</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>It really is about messaging</h2>
+        </section>
+
+        <section>
+          <h2>Real life is asynchronous</h2>
+
+          <img src="img/ship.png" style=" float: left;border: none; box-shadow: 0 0 0 0 #fff; width: 40%; background: none;"/>
+        </section>
+
+        <section>
+          <h2>So, why our apps aren't?</h2>
+        </section>
+
+        <section>
+          <h4>Karafka uses goods that are already well known and performant:</h4>
+
+          <ul>
+            <li><a href="https://github.com/zendesk/ruby-kafka">ruby-kafka</a> for talking with Kafka</li>
+            <li><a href="https://github.com/dry-rb/dry-monitor">dry-monitor</a> for instrumentation</li>
+            <li><a href="https://github.com/dry-rb/dry-configurable">dry-configurable</a> for settings management</li>
+            <li><a href="https://github.com/dry-rb/dry-validation">dry-validation</a> for checking the settings consistency</li>
+            <li><a href="https://github.com/ruby-concurrency/concurrent-ruby">concurrent ruby</a> for all the multi-thread internal components</li>
+            <li>A lot of <span style="color: #BC2C40">PORO</span> for all the other things</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Karafka framework components</h3>
+
+          <p>
+            Karafka core is combined from few logical parts:
+          </p>
+
+          <ul>
+            <li><span style="color: #BC2C40">Router</span> for describing consumer groups and their details</li>
+            <li><span style="color: #BC2C40">Consumers</span> for consuming (processing) messages</li>
+            <li><span style="color: #BC2C40">Responders</span> for sending </li>
+            <li><span style="color: #BC2C40">CLI</span> for management</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Karafka framework components</h4>
+
+          <img src="img/components.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 45%; background: none"/>
+        </section>
+
+        <section>
+          <h3>How to install it?</h3>
+
+<pre><code data-trim>
+# Gemfile
+source 'https://rubygems.org'
+
+gem 'karafka'
+</code></pre>
+
+<pre><code data-trim>
+bundle install
+bundle exec karafka install
+</code></pre>
+
+          <p>
+            Update <span style="color: #BC2C40">karafka.rb</span> with your configuration settings and run:
+          </p>
+
+<pre><code data-trim>
+bundle exec karafka server
+</code></pre>
+
+
+          <p>
+          All the configutation options are described here:<br/><a href="https://github.com/karafka/karafka">github.com/karafka/karafka</a>
+          </p>
+        </section>
+
+        <section>
+          <img src="img/karafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 70%; background: none;"/>
+
+          <h3>Karafka conventions and features</h3>
+        </section>
+
+        <section>
+          <p>
+            Everything is being validated to ensure you <span style="color: #BC2C40">won't</span> do anything stupid
+          </p>
+
+<pre><code data-trim>
+class KarafkaApp < Karafka::App
+  setup do |config|
+    config.client_id = 'my_application'
+    config.backend = :inline
+    config.batch_fetching = true
+    config.batch_consuming = true
+    config.kafka.seed_brokers = %w[kafka://127.0.0.1:9092]
+    config.shutdown_timeout = -1
+  end
+end
+</code></pre>
+        </section>
+
+        <section>
+
+<h4>
+  Default configs are quite good for getting started, so you don't have to worry about that at the beginning.
+</h4>
+
+<pre><code data-trim>
+class KarafkaApp < Karafka::App
+  setup do |config|
+    config.kafka.seed_brokers = %w[kafka://127.0.0.1:9092]
+    config.client_id = 'example_app'
+  end
+end
+</code></pre>
+        </section>
+
+        <section>
+          <p>
+            Routing engine
+          </p>
+
+          <small>
+            It provides an interface to describe how messages from all the topics should be fetched and how they should be consumed.
+          </small>
+
+
+<pre><code data-trim>
+KarafkaApp.consumer_groups.draw do
+  consumer_group :group_name do
+    topic(:videos_created) { consumer VideosConsumer }
+
+    topic :binary_video_details do
+      consumer BinaryConsumer
+      parser Parsers::BinaryToJson
+      responder BinaryVideoProcessingResponder
+      batch_consuming true
+    end
+  end
+end
+</code></pre>
+
+        </section>
+
+<section>
+
+<p>
+  Not much needed to be done, if you work with JSON data:
+</p>
+
+<pre><code data-trim>
+KarafkaApp.consumer_groups.draw do
+  consumer_group :commit_builds do
+    topic(:builds_created) { consumer CreateBuildsConsumer }
+    topic(:builds_done) { consumer UpdateBuildConsumer }
+    topic(:builds_expired) { consumer ExpireBuildConsumer }
+  end
+end
+</code></pre>
+
+        </section>
+
+        <section>
+          <h4>Karafka consumers are <span style="color: #BC2C40">simple</span></h4>
+
+          <small>
+            All you need is a <span style="color: #BC2C40">#consume</span> method that will be executed when new messages arrive:
+          </small>
+<pre><code data-trim>
+class CreateVideosConsumer < Karafka::BaseConsumer
+  def consume
+    params_batch.each do |params|
+      respond_with Video.create!(params[:video])
+    end
+  end
+end
+</code></pre>
+        </section>
+
+        <section>
+<p>
+  Responders help preventing bugs when you design a receive-respond applications that handle work on multiple incoming and outgoing topics
+</p>
+
+<pre><code data-trim>
+class ExampleResponder < ApplicationResponder
+  topic :users_notified
+
+  def respond(user)
+    respond_to :users_notified, user
+  end
+end
+</pre></code>
+        </section>
+
+        <section>
+There are also few useful CLI commands available:
+
+<pre><code data-trim>
+bundle exec karafka [COMMAND]
+
+karafka console
+karafka flow
+karafka help [COMMAND]
+karafka info
+karafka install
+karafka server
+</pre></code>
+        </section>
+
+        <section>
+          <h3>karafka flow CLI command</h3>
+
+<pre><code data-trim>
+commit_builds_imported =>
+  - commit_builds_scheduled: (always, one or more)
+commit_builds_processed =>
+  - commit_builds_copied: (always, one or more)
+sources_received =>
+  - commit_builds_imported: (always, exactly once)
+
+repositories_created => (nothing)
+repositories_deleted => (nothing)
+repositories_updated => (nothing)
+
+repositories_tiers_updated => (nothing)
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Karafka performance</h3>
+
+          <ul>
+            <li>Single process can handle around <span style="color: #BC2C40">55 000 messages</span> per second</li>
+            <li>Less than <span style="color: #BC2C40">1 ms</span> to send a message with the slowest (secure) mode (Kafka request.required.acks -1) </li>
+            <li>Less than <span style="color: #BC2C40">1/10 of a ms</span> to send a message with the 0 mode (Kafka request.required.acks 0) </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Fetching and consuming</h3>
+
+          <p>
+            During a message or a batch lifecycle within Karafka framework, there are two crucial moments:
+          </p>
+
+          <ul>
+            <li><span style="color: #BC2C40">Fetching</span> - process of getting the Kafka data to Karafka Ruby process</li>
+            <li><span style="color: #BC2C40">Consuming</span> - process of applying the business logic to the fetched messages</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Fetching modes</h3>
+
+          <img src="img/fetching_modes.png" style="border: none; box-shadow: 0 0 0 0 #fff; background: none;"/>
+        </section>
+
+        <section>
+          <h3>Consuming modes</h3>
+
+          <p>Depending on your application and/or consumer group settings, Karafka's consumer can consume messages in two modes:</p>
+
+          <ul>
+            <li><span style="color: #BC2C40">Batch</span> messages consuming</li>
+            <li><span style="color: #BC2C40">Single</span> message consuming</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Batch consuming</h3>
+<pre><code data-trim>
+class TweetsConsumer < Karafka::BaseConsumer
+  def consume
+    tweets = params_batch
+      .map { |params| params.fetch('video') }
+      .map { |params| Tweets::New.call(params)['model'] }
+
+    Tweets::Import.call tweets
+  end
+end
+</code></pre>
+
+        </section>
+
+        <section>
+          <h4>Single message consuming</h4>
+
+<pre><code data-trim>
+class TweetsConsumer < Karafka::BaseConsumer
+  def consume
+    Tweets::Create.call(params.fetch('video'))
+  end
+end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Lazy params evaluation</h3>
+
+          <p>Messages inside a batch are <span style="color: #BC2C40">lazy</span> parsed upon the first usage</p>
+
+<pre><code data-trim>
+IGNORE_LIMIT = 60 # 1 minute
+
+def consume
+  params_batch.to_a.each do |unparsed_event|
+    # Ignore messages that were created long ago
+    limit = Time.now - IGNORE_LIMIT
+    next if unparsed_event.create_time < limit
+    EventReactor.call(unparsed_event.parse!)
+  end
+end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Lazy params evaluation</h3>
+
+          <ul>
+            <li>Great for "now or never" operations</li>
+            <li>Great for time sensitive event based operations</li>
+            <li>Great for filtering noise based on Kafka messages metadata</li>
+            <li>Great for ignoring old data after services restarts</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Persistent consumers</h3>
+<pre><code data-trim>
+  BUFFER_SIZE = 1000
+
+  def consume
+    buffer << params_batch.map { |param| param.fetch('event') }
+
+    if buffer.size >= BUFFER_SIZE
+      data = buffer.shift(BUFFER_SIZE)
+      Event.import_batch(data)
+    end
+  end
+
+  def buffer
+    @buffer ||= []
+  end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Persistent consumers</h3>
+
+          <ul>
+            <li>Consumers <span style="color: #BC2C40">are</span> persistent by default</li>
+            <li>This behavior <span style="color: #BC2C40">can</span> be changed to make instances handle only a single batch or a message</li>
+            <li>Consumer instance always handles messages only from a single partition of a single topic</li>
+            <li>Great for implementing buffering and batch data flushing</li>
+            <li>Great for sagas realization</li>
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Multi batch transactions</h2>
+
+          <p>
+            Imagine a transaction that lasts <span style="color: #BC2C40">across</span> thousands of requests
+          </p>
+          <p>
+            Transaction for which you need no new persistence layer until you get all the data you need
+          </p>
+        </section>
+
+        <section>
+          <h2>Manual offset management</h2>
+
+<pre><code data-trim>
+buffer = []
+customer_id = 1
+
+params_batch.each do |params|
+  next unless params['customer_id'] == 1
+  case params.fetch('type')
+  when 'added_to_cart'
+    buffer << params
+  when 'completed_purchase'
+    Events.import(buffer)
+    consumer.mark_message_as_processed(params)
+    buffer = []
+  end
+end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Monitoring and logging</h3>
+
+<p>
+Karafka uses <span style="color: #BC2C40">dry-monitor</span> as an instrumentation layer to which you can easily hook up with your own listeners. You can use it to develop your own monitoring and logging systems
+</p>
+        </section>
+
+        <section>
+          <h3>Monitoring and logging</h3>
+          <h4>Subscribe with a block</h4>
+
+<pre><code data-trim>
+key = 'params.params.parse.error'
+KarafkaApp.monitor.subscribe key do |event|
+  puts "Oh no! An error: #{event[:error]}"
+end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Monitoring and logging</h3>
+          <h4>Subscribe with a class/module</h4>
+
+<pre><code data-trim>
+if KarafkaApp.env.production?
+  KarafkaApp.monitor.subscribe(AirbrakeListener)
+  KarafkaApp.monitor.subscribe(DataDogListener)
+  KarafkaApp.monitor.subscribe(LogstashListener)
+else
+  KarafkaApp.monitor.subscribe(StdoutListener)
+end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Deployment</h3>
+
+          <p>
+            You can deploy and run Karafka on various platforms using:
+          </p>
+
+          <img src="img/terraform.svg" style="background: none; width: 30%; padding: 2%;"/>
+          <img src="img/docker.png" style="background: none; width: 30%; padding: 2%;"/>
+          <img src="img/capistrano.png" style="background: none; width: 30%; padding: 2%;"/>
+          <img src="img/heroku.png" style="background: none; width: 30%; padding: 2%;"/>
+        </section>
+
+        <section>
+          <h3>Seamless integration with Kafka SaaS providers thanks to topic mappers</h3>
+
+          <p>
+Some Kafka cloud providers <span style="color: #BC2C40">require</span> topics to be <span style="color: #BC2C40">namespaced</span> with a username. This approach is understandable, but at the same time, makes your applications less provider agnostic.
+          </p>
+        </section>
+
+
+        <section>
+          <h3>Seamless integration with Kafka SaaS providers thanks to topic mappers</h3>
+
+          <p>
+To target that issue, you can create your own
+<span style="color: #BC2C40">topic mapper</span> that will sanitize incoming/outgoing topic names, so your logic won't be bound to those specific versions of topic names.
+          </p>
+        </section>
+
+        <section>
+          <h3>Seamless integration with Kafka SaaS providers thanks to topic mappers</h3>
+<pre><code data-trim>
+class KarafkaTopicMapper
+  def initialize(prefix)
+    @prefix = prefix
+  end
+
+  def incoming(topic)
+    topic.to_s.gsub("#{@prefix}.", '')
+  end
+
+  def outgoing(topic)
+    "#{@prefix}.#{topic}"
+  end
+end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Seamless integration with Kafka SaaS providers thanks to topic mappers</h3>
+<pre><code data-trim>
+mapper = KarafkaTopicMapper.new('maciej')
+mapper.incoming('maciej.my_super_topic') #=> 'my_super_topic'
+mapper.outgoing('my_other_topic') #=> 'maciej.my_other_topic'
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Integrating with Ruby on Rails and other web-frameworks</h3>
+
+          <ul>
+            <li>It's best to start by sending messages</li>
+            <li>Karafka has a library for that called <a href="https://github.com/karafka/waterdrop">WaterDrop</a></li>
+          </ul>
+
+<pre><code data-trim>
+# Rails create action
+def create
+  @user = User.create(user_params)
+  if @user.valid?
+    WaterDrop::AsyncProducer.call(@user, topic: 'users')
+  end
+  respond_with @user
+end
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Integrating with Ruby on Rails and other web-frameworks</h3>
+
+<pre><code data-trim>
+ENV['RAILS_ENV'] ||= 'development'
+ENV['KARAFKA_ENV'] = ENV['RAILS_ENV']
+
+require ::File.expand_path('../config/environment', __FILE__)
+Rails.application.eager_load!
+</code></pre>
+        </section>
+
+        <section>
+          <h3>Karafka as a component of an alt-Rails stack</h3>
+
+          <ul>
+            <li>Kafka and Karafka can be a <span style="color: #BC2C40">great alternative to callbacks</span> and other alternative notifiers like (broadcasting instead of callbacks)</li>
+            <li>It can acts as a <span style="color: #BC2C40">flow normalization layer</span> for high throughput tasks</li>
+            <li>Due to it's nature it can easily acts as an auto-scaling layer for handling incoming data spikes</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Karafka as a component of an alt-Rails stack</h3>
+
+          <p>
+            Because Karafka acts a message transportation layer, it works really great with other modern Ruby solutions including:
+
+            <ul>
+              <li>Reform</li>
+              <li>Trailblazer</li>
+              <li>ROM.rb</li>
+              <li>Dry ecosystem</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h3>Karafka as a component of an alt-Rails stack</h3>
+
+          <p>Example integration with Trailblazer + Reform</p>
+
+<pre><code data-trim>
+class CommitBuildsCopyController < KarafkaController
+  def perform
+    CommitBuilds::Copy.call(
+      params_batch.map { |params| params.fetch('value') }
+    )
+  end
+end
+</code></pre>
+        </section>
+
+
+        <section>
+          <h1>Streams and batches mindshift</h1>
+        </section>
+
+        <section>
+          <h2>Streams and batches mindshift</h2>
+          <h3>
+            The biggest change that needs to happen is not in the code-base nor in the architecture but in the people.
+          </h3>
+        </section>
+
+        <section>
+          <h2>Simple example of an "instance oriented" mindset</h2>
+          <h3>Event triggered webhooks</h3>
+
+          <p>
+            Problem: based on some internal events we need to set HTTP events to our customers
+          </p>
+        </section>
+
+        <section>
+          <h3>1:1 relationship</h3>
+
+          <img src="img/typical.png" style="background: none; border: none; box-shadow: 0 0 0 0 #fff;"/>
+        </section>
+
+        <section>
+          <h3>More events, more requests</h3>
+
+          <img src="img/typical2.png" style="background: none; border: none; box-shadow: 0 0 0 0 #fff;"/>
+        </section>
+
+        <section>
+          <h3>More requests, more problems</h3>
+
+          <ul>
+            <li>Client server overload</li>
+            <li>Client server downtimes</li>
+            <li>Linux socket connections limit</li>
+            <li>Network problems</li>
+            <li>Retries handling</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Mindset switch</h3>
+
+          <p>
+            What if we could:
+          </p>
+
+          <ul>
+            <li>Make sure that even if we don't do it yet, our customers are ready for it</li>
+            <li class="fragment">Send a single event details when no traffic</li>
+            <li class="fragment">Increase number of events delivered without increasing number of requests</li>
+            <li class="fragment">Autoscale </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Mindset switch</h3>
+
+          <img src="img/batch.png" style="background: none; border: none; box-shadow: 0 0 0 0 #fff;"/>
+        </section>
+
+        <section>
+          <img src="img/castle.png" style="border: none; box-shadow: 0 0 0 0 #fff; background: none; width: 70%"/>
+
+          <h3>How we use all of it at Castle?</h3>
+        </section>
+
+        <section>
+          <img src="img/castle.png" style="border: none; box-shadow: 0 0 0 0 #fff; background: none; width: 70%"/>
+
+          <h4>
+            Castle detects and mitigates account takeovers in web and mobile apps
+          </h4>
+        </section>
+
+        <section>
+          <h3>
+            Account compromise - a growing danger
+          </h3>
+
+          <p>
+In the fall of 2017, Yahoo announced that <span style="color: #BC2C40">all</span> their users (<span style="color: #BC2C40">3 billion</span> accounts) were hacked. Equifax announced that credit information and personal information for <span style="color: #BC2C40">143 million</span> consumers  was  exposed.  Dropbox  announced  in  2016  that  <span style="color: #BC2C40">68  million</span> user accounts were  compromised.
+          </p>
+        </section>
+
+        <section>
+          <h3>Password hacking is easy in 2018</h3>
+
+          <ul>
+            <li>sentry-mba.com, 2captcha.com, pastebin.com, ...</li>
+            <li><span style="color: #BC2C40">73%</span> passwords are used on multiple sites</li>
+            <li><span style="color: #BC2C40">3.1B</span> credentials leaked only in 2016</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Credentials can be stolen, but behavior <span style="color: #BC2C40">can't</span> be faked</h3>
+
+          <p>
+Our approach to compromise prevention is simple: fully understand the behavior patterns of your user base at every level, and use that understanding to stop any unauthorized entities accessing accounts in real time.
+          </p>
+        </section>
+
+        <section>
+          <h3>Credentials can be stolen, but behavior <span style="color: #BC2C40">can't</span> be faked</h3>
+<p>
+While hackers might have an easy time obtaining credentials to log into a user account, mimicking all behaviors of a stolen user account  at all points in an application is virtually <span style="color: #BC2C40">impossible</span>, for even the most experienced hacker.
+</p>
+        </section>
+
+        <section>
+          <h3>What do we track?</h3>
+
+          <p>Device level signals:</p>
+
+          <p>
+            IP, browser, user agent, language, device type, screen resolution, battery level, plugins
+          </p>
+
+          <p>UI interactions:</p>
+
+          <p>Mouse movements, keystrokes, touch interactions, site navigation, user details and attributes</p>
+        </section>
+
+        <section>
+          <p>
+            We use all these signals to create a holistic devices fingerprints in real time, every time the user interacts with the application.
+          </p>
+          <p>
+The fingerprints serve as building blocks for our behavior models, and anytime there is a single change to the fingerprint our dynamic risk scores are updated accordingly in real time via <span style="color: #BC2C40">asynchronous</span> call.
+          </p>
+        </section>
+
+        <section>
+          <img src="img/castle-work.png" />
+        </section>
+
+        <section>
+          <img src="img/risks.png" />
+        </section>
+
+        <section>
+          <img src="img/castle.png" style="border: none; box-shadow: 0 0 0 0 #fff; background: none; width: 70%"/>
+
+          <p>
+            <ul>
+              <li>More than <span style="color: #BC2C40">100 mln events</span> per day</li>
+              <li>Over <span style="color: #BC2C40">25 mln</span> active users per day</li>
+              <li>Over <span style="color: #BC2C40">50mln active users</span> overall</li>
+              <li><span style="color: #BC2C40">2.5 mln</span> failed logins daily</li>
+            </ul>
+          </p>
+        </section>
+
+        <section>
+          <h4>Kafka is a central data backbone for us with <span style="color: #BC2C40">Karafka</span> for the consumption</h4>
+
+          <ul>
+            <li><span style="color: #BC2C40">Every</span> single information go through it</li>
+            <li>Multiple applicatons consume the same data but output different results in a stream manner</li>
+            <li>Data streams are used to materialize data for the UI app</li>
+            <li><span style="color: #BC2C40">Real-time</span> scoring and predictions</li>
+            <li><span style="color: #BC2C40">Real time</span> data backups and archiving</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>It's all being consumed using <span style="color: #BC2C40">Ruby &lt;3</span></h4>
+
+          <ul>
+            <li>Applications don't care about origins of an events / messages</li>
+            <li>Downtimes aren't a problem as applications catch-up to the current system state</li>
+            <li>A lot of async independent work that can happen within isolated services</li>
+            <li>Batches allow us to optimize DBs operations and allow for a lot of in-memory computation</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Karafka roadmap</h3>
+
+          <p>
+            We're currently working on a 1.3 release:
+          </p>
+
+          <ul>
+            <li>Performance and memory usage improvements</li>
+            <li>dry-container for dependency management</li>
+            <li>No global state for the server process</li>
+            <li>Better handling of timeouts and heartbeats</li>
+            <li>Better instrumentation</li>
+            <li>Support for custom headers for producing and consuming</li>
+            </ul>
+        </section>
+
+        <section>
+          <h2>READ MORE</h2>
+
+          <ul>
+            <li><a href="https://github.com/karafka/karafka">github.com/karafka/karafka</a></li>
+            <li><a href="https://github.com/karafka">github.com/karafka</a></li>
+            <li><a href="http://mensfeld.pl/tag/karafka">mensfeld.pl/tag/karafka</a></li>
+            <li><a href="http://kafka.apache.org/">kafka.apache.org</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <img src="img/karafka.png" style="border: none; box-shadow: 0 0 0 0 #fff; width: 70%; background: none;"/>
+
+          <h2>THE END</h2>
+
+          <ul style="text-align: center; list-style: none;">
+            <li>www: <a href="https://github.com/karafka">github.com/karafka</a></li>
+            <li>email: <a href="mailto:maciej@mensfeld.pl">maciej@mensfeld.pl</a></li>
+            <li>twitter: <a href="http://twitter.com/maciejmensfeld">@maciejmensfeld</a></li>
+          </ul>
+        </section>
+			</div>
+
+		  <div class='logo'>
+        <img src="img/logo.png" style="background: none; border: none; box-shadow: 0 0 0 0 #fff; width: 20%;"/>
+		  </div>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+        history: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
